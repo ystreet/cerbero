@@ -17,20 +17,21 @@ class Recipe(custom.GStreamer):
         --disable-pvr --disable-sdl --disable-sndfile \
         --disable-teletextdec --disable-timidity \
         --disable-vdpau --disable-voamrwbenc --disable-wildmidi \
-        --disable-xvid --disable-zbar --disable-sdi'
+        --disable-xvid --disable-zbar --disable-sdi --disable-srt'
     # Explicitly enable plugins
     configure_options += ' --enable-bz2 --enable-assrender \
         --enable-faad --enable-kate --enable-openh264 --enable-opus \
         --enable-hls --enable-rtmp --enable-srtp --enable-dts \
         --enable-libmms --enable-resindvd --enable-soundtouch \
         --enable-voaacenc --enable-rsvg --enable-openjpeg --enable-spandsp \
-        --enable-decklink --disable-srt'
+        --enable-decklink --enable-dtls'
     remotes = {'origin': 'git://anongit.freedesktop.org/gstreamer/gst-plugins-bad'}
     deps = ['gstreamer-1.0', 'gst-plugins-base-1.0', 'bzip2', 'libass',
             'faad2', 'libkate', 'zlib', 'openh264', 'opus', 'nettle', 'librtmp',
             'libsrtp', 'libdca', 'libmms', 'libdvdnav',
             'soundtouch', 'vo-aacenc', 'librsvg', 'openjpeg',
-            'spandsp', 'webrtc-audio-processing', 'sbc', 'ladspa']
+            'spandsp', 'webrtc-audio-processing', 'sbc', 'ladspa',
+            'openssl', 'libnice']
     use_system_libs = True
 
     files_lang = ['gst-plugins-bad-1.0']
@@ -40,7 +41,7 @@ class Recipe(custom.GStreamer):
                   'libgstbadvideo-1.0',
                   'libgstinsertbin-1.0', 'libgstadaptivedemux-1.0',
                   'libgstplayer-1.0', 'libgstbadaudio-1.0',
-                  'libgstisoff-1.0']
+                  'libgstisoff-1.0', 'libgstwebrtc-1.0']
 
     files_plugins_devel = [
         'include/gstreamer-1.0/gst/mpegts',
@@ -53,6 +54,7 @@ class Recipe(custom.GStreamer):
         'include/gstreamer-1.0/gst/insertbin',
         'include/gstreamer-1.0/gst/interfaces',
         'include/gstreamer-1.0/gst/isoff',
+        'include/gstreamer-1.0/gst/webrtc',
         'lib/pkgconfig/gstreamer-plugins-bad-1.0.pc',
         'lib/pkgconfig/gstreamer-mpegts-1.0.pc',
         'lib/pkgconfig/gstreamer-player-1.0.pc',
@@ -60,6 +62,7 @@ class Recipe(custom.GStreamer):
         'lib/pkgconfig/gstreamer-bad-video-1.0.pc',
         'lib/pkgconfig/gstreamer-codecparsers-1.0.pc',
         'lib/pkgconfig/gstreamer-insertbin-1.0.pc',
+        'lib/pkgconfig/gstreamer-webrtc-1.0.pc',
     ]
 
     files_plugins_effects = [
@@ -229,13 +232,17 @@ class Recipe(custom.GStreamer):
     ]
 
     files_plugins_net = [
+             'lib/gstreamer-1.0/libgstdtls%(mext)s',
              'lib/gstreamer-1.0/libgstsdpelem%(mext)s',
              'lib/gstreamer-1.0/libgstsrtp%(mext)s',
+             'lib/gstreamer-1.0/libgstwebrtc%(mext)s',
     ]
 
     files_plugins_net_devel = [
+             'lib/gstreamer-1.0/libgstdtls.a', 'lib/gstreamer-1.0/libgstdtls.la',
              'lib/gstreamer-1.0/libgstsdpelem.a', 'lib/gstreamer-1.0/libgstsdpelem.la',
              'lib/gstreamer-1.0/libgstsrtp.a', 'lib/gstreamer-1.0/libgstsrtp.la',
+             'lib/gstreamer-1.0/libgstswebrtc.a', 'lib/gstreamer-1.0/libgstwebrtc.la',
     ]
 
     files_plugins_net_restricted = [
